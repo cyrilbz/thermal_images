@@ -12,4 +12,4 @@ The segmentation takes as input a point located at the center of the image (pres
 
 #Usage:
 
-Once all plugnins and dependencies are installed, in extract_register_segment_thermal.py simply specify the path to your image, the name of the output file, and the path to the SAM model checkpoints and run!
+Once all plugnins and dependencies are installed, in extract_register_segment_thermal.py simply specify the path to your image, the name of the output file (csv file containing file name, mean plant temperature and standard deviation), and the path to the SAM model checkpoints and run!
