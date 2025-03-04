@@ -1,14 +1,5 @@
 # Two tools for extracting mean plant temperature from thermal images !
 
-- General informations :
-  
-The flir_image_extractor.py tool comes from this repository : https://github.com/ITVRoC/FlirImageExtractor
-It relies on Exiftool to work (https://exiftool.org/).
-
-Segmentation is done using the Segment Anything Model which can be downloaded and installed following : https://github.com/facebookresearch/segment-anything?tab=readme-ov-file
-Install the model and its dependencies, as well as download the model checkpoints (link in the same web page).
-
-For both codes to work, the plant of interest must be located in the center of the image!
 
 Here is an example of image both codes can treat:
 
@@ -17,6 +8,16 @@ Here is an example of image both codes can treat:
 And here an example of the resulting plant mask obtained using open_segment_thermal.py:
 
 ![Screenshot](result_segmentation.png)
+
+- General informations :
+  
+The flir_image_extractor.py tool that is used to compute the actual teperature data (in °C) from infrared data comes from this repository : https://github.com/ITVRoC/FlirImageExtractor
+It relies on Exiftool to work (https://exiftool.org/).
+
+Segmentation is done using the Segment Anything Model which can be downloaded and installed following : https://github.com/facebookresearch/segment-anything?tab=readme-ov-file
+Install the model and its dependencies, as well as download the model checkpoints (link in the same web page).
+
+For both codes to work, the plant of interest must be located in the center of the image!
 
 - Tool 1 : Direct segmentation of thermal images (open_segment_thermal.py)
 
