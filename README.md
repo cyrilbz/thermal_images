@@ -9,8 +9,14 @@ Segmentation is done using the Segment Anything Model which can be downloaded an
 Install the model and its dependencies, as well as download the model checkpoints (link in the same web page).
 
 For both codes to work, the plant of interest must be located in the center of the image!
-Here an example of image both codes can treat:
+
+Here is an example of image both codes can treat:
+
 ![Screenshot](FLIR0530_T_SH_3_2.jpg)
+
+And here an example of the resulting plant mask obtained using open_segment_thermal.py:
+
+![Screenshot](result_segmentation.png)
 
 - Tool 1 : Direct segmentation of thermal images (open_segment_thermal.py)
 
