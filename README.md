@@ -23,9 +23,9 @@ And here an example of the resulting plant mask obtained using open_segment_ther
 To try a direct segmentation of the thermal image using SAM model. It takes as inputs several positive prompts at the center of the thermal image, and negative prompts in the corners.
 For the image on the repository one obtains: Tmean=30.67°C, std deviation: 2.49°C. Computational time on an intel i5 CPU: 80 seconds
 
-- Tool 2 : Obtention of plant location from visible image segmentation (extract_register_segment
+- Tool 2 : Obtention of plant location from visible image segmentation (extract_register_segment.py)
 
-When the first solution does not work, one can align the visible and thermal images, segment the plant in the visible image, and apply the resulting mask onto the thermal image.
+When the first solution does not work, one can align the visible image (that is saved within the thermal image metadata) to the thermal image, segment the plant in the visible image, and apply the resulting mask onto the thermal image. 
 
 Image registration is done using Affinder, a napari plugin (plugins->Affinder): https://www.napari-hub.org/plugins/affinder 
 It assumes that there is an affine transformation between both images, once you provided at least three points of correspondence between both images (see the tutorial on Affinder website). Once registration is satisfying, simply close the napari viewer to continue with the program by giving the transformation matrix file name (whose name must be provided when lauchning Affinder, see agin their the Affinder tutorial). As an example I attached the matrix 0530.txt that corresponds to the image given in the repository.
