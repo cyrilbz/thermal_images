@@ -8,8 +8,9 @@ Created on Mon Mar  3 11:23:46 2025
 # a program that tries to segment the termal images directly
 
 import time
-
+import os
 import flir_image_extractor 
+import tifffile
 
 from matplotlib import pyplot as plt
 from skimage.morphology import remove_small_objects, remove_small_holes
@@ -21,13 +22,13 @@ from segment_anything import sam_model_registry, SamPredictor
 import csv
 
 ########## File name ###################
-#directory = 'test_protocol/' # do not forget the "/" ; './' for current directory
-directory = './'
-file_name = ['FLIR0530_T_SH_3_2'] # list of file names without extension
+directory = './wetransfer_photo-ir-lavande_2025-10-01_0805/2025_IR/' # do not forget the "/" ; './' for current directory
+#directory = './'
+file_name = ['FLIR1001'] # list of file names without extension
 extension = '.jpg'
 csv_filename = 'results.csv' # to write outputs
 ######## Path to SAM model #############
-model_path = "C:/Documents/traitement_image/SAM_model/sam_vit_h_4b8939.pth"
+model_path = "/home/cbozonnet/Documents/image_processing/SAM_model/sam_vit_h_4b8939.pth"
 ########################################
 
 def thermal_processing(directory,file_name,extension, output_name):
@@ -39,6 +40,17 @@ def thermal_processing(directory,file_name,extension, output_name):
     fir.process_image(full_path) # run extractor
     thermal_array = fir.get_thermal_np() # get thermal image as 2D numpy array
     fir.save_images()
+    
+    # Save as 32-bit TIFF to read in ImageJ
+    # Convert to 32-bit float
+    thermal_image_32 = thermal_array.astype(np.float32)
+    tifffile.imwrite(f'{file_name}_thermal_image.tif', thermal_image_32)
+    
+    # # Read the TIFF file back into a numpy array
+    # loaded_image = tifffile.imread(f'{file_name}_thermal_image.tif')
+
+    # # Verify the data type and values
+    # print(loaded_image.dtype)  # Should be float32
     
     # # open napari viewer & plot both images
     # settings = get_settings()
@@ -52,6 +64,7 @@ def thermal_processing(directory,file_name,extension, output_name):
     ################### first : specify prompts 
     thermal_img_path = directory + file_name + '_thermal.png'
     thermal_img = cv2.imread(thermal_img_path) 
+    #os.remove(thermal_img_path)
     
     height, width, _ = thermal_img.shape
     x_center = width//2
@@ -87,7 +100,7 @@ def thermal_processing(directory,file_name,extension, output_name):
     model_type = "vit_h"
     
     # Specify device
-    device = "cpu"
+    device = "cuda"
     
     # specify the model
     sam = sam_model_registry[model_type](checkpoint=model_path) 
@@ -127,7 +140,7 @@ def thermal_processing(directory,file_name,extension, output_name):
     plt.imshow(thermal_img[:,:,0])
     plt.contour(resulting_mask, colors='red', levels=[0.5])
     plt.axis('off')
-    plt.title("Original image with final mask", fontsize=18)
+    plt.title(f"{file_name} with final mask (open_segment_thermal.py)", fontsize=18)
     plt.show
     
     ################ Computations ###############################
